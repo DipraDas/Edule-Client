@@ -1,0 +1,8 @@
+.tuitionCard{
+    background-image: url('../../../assets/Images/Tuition/card.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 50px 40px;
+    border-radius: 15px;
+}

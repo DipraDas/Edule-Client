@@ -1,0 +1,12 @@
+.tuitionBanner{
+    background-image: url('../../../assets/Images/Tuition/banner.jpg');
+    height: 500px;
+    background-position: bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Mukta'
+}

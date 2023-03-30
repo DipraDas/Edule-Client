@@ -1,0 +1,7 @@
+.addTuition{
+    background: rgba(255, 255, 255, 0.507) url('../../assets/Images/AddTuition/leaf-2.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: hue;
+}
