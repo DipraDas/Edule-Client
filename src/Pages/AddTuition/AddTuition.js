@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/authprovider/authprovider';
 import './AddTuition.css';
+import useTitle from '../../hooks/useTitle';
 
 const AddTuition = () => {
+    useTitle("Add Tuition");
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
@@ -27,9 +30,9 @@ const AddTuition = () => {
             phone: data.phone,
             email: email,
             postedOn: today,
-            name:name
+            name: name
         }
-        fetch('http://localhost:5000/tuitions', {
+        fetch('https://edule-server.vercel.app/tuitions', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

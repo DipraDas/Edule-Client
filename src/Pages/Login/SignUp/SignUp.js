@@ -5,9 +5,10 @@ import { AuthContext } from '../../../context/authprovider/authprovider';
 import girl from '../../../assets/Images/Authentication/girl.png';
 import Swal from 'sweetalert2';
 import useToken from '../../../hooks/useToken/useToken';
+import useTitle from '../../../hooks/useTitle';
 
 const SignUp = () => {
-
+    useTitle("Register");
     const { createUser, updateUser } = useContext(AuthContext);
     const [signupError, setSignupError] = useState('');
     const navigate = useNavigate();
@@ -71,7 +72,7 @@ const SignUp = () => {
             study: ''
         };
 
-        fetch('http://localhost:5000/users', {
+        fetch('https://edule-server.vercel.app/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

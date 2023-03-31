@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import TuitionCard from './TuitionCard';
+import { useQuery } from '@tanstack/react-query';
+import Loading from '../../../components/shared/Loading/Loading';
 
 const TuitionDetails = () => {
 
-    const [tuitions, setTuitions] = useState([]);
+    const { data: tuitions = [], isLoading } = useQuery({
+        queryKey: ['tuitions'],
+        queryFn: async () => {
+            const res = await fetch('https://edule-server.vercel.app/tuitions', {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                }
+            });
+            const data = await res.json();
+            return data
+        }
+    })
 
-    useEffect(() => {
-        fetch('http://localhost:5000/tuitions', {
-            headers: {
-                'content-type': 'application/json',
-                authorization: `bearer ${localStorage.getItem('accessToken')}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => setTuitions(data));
-    }, [])
+    if (isLoading) {
+        <Loading></Loading>
+    }
 
     return (
         <div className='container mx-auto p-5 py-20'>

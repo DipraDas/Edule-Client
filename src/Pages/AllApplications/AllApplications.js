@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import useTitle from '../../hooks/useTitle';
 
 const AllApplications = () => {
-
+    useTitle("All Applications");
     const [applicants, setApplicants] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/allApplications', {
+        fetch('https://edule-server.vercel.app/allApplications', {
             headers: {
                 'content-type': 'application/json',
                 authorization: `bearer ${localStorage.getItem('accessToken')}`

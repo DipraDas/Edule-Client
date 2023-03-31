@@ -4,8 +4,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import girl from '../../../assets/Images/Authentication/girl.png';
 import { AuthContext } from '../../../context/authprovider/authprovider';
 import useToken from '../../../hooks/useToken/useToken';
+import useTitle from '../../../hooks/useTitle';
 
 const SignIn = () => {
+    useTitle("Login");
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { signIn } = useContext(AuthContext);
     const [loginError, setLoginError] = useState('');

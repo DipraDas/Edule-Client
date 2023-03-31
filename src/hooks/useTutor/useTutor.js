@@ -5,7 +5,7 @@ const useTutor = (email) => {
     const [isTutorLoading, setIsTutorLoading] = useState(true);
     useEffect(() => {
         if (email) {
-            fetch(`http://localhost:5000/users/tutor/${email}`)
+            fetch(`https://edule-server.vercel.app/users/tutor/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setIsTutor(data.isTutor);

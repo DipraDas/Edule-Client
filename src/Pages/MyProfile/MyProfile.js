@@ -2,15 +2,17 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import { AuthContext } from '../../context/authprovider/authprovider';
 import ProfileDetails from './ProfileDetails';
+import useTitle from '../../hooks/useTitle';
+import Loading from '../../components/shared/Loading/Loading';
 
 const MyProfile = () => {
-
+    useTitle("Profile");
     const { user } = useContext(AuthContext);
 
-    const { data: profile = [], refetch } = useQuery({
+    const { data: profile = [], isLoading } = useQuery({
         queryKey: ['profile'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/myProfile?email=${user?.email}`, {
+            const res = await fetch(`https://edule-server.vercel.app/myProfile?email=${user?.email}`, {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
@@ -19,6 +21,10 @@ const MyProfile = () => {
             return data;
         }
     })
+
+    if (isLoading) {
+        <Loading></Loading>
+    }
 
     return (
         <div className='container mx-auto px-10'>

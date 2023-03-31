@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { HiOutlinePhone } from "react-icons/hi";
-import { HiOutlineMail} from "react-icons/hi";
-import { HiOutlineLocationMarker} from "react-icons/hi";
+import { HiOutlineMail } from "react-icons/hi";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 import Swal from 'sweetalert2';
 
 const Contact = () => {
@@ -16,7 +16,7 @@ const Contact = () => {
             subject: data.subject,
             message: data.message,
         }
-        fetch('http://localhost:5000/connects', {
+        fetch('https://edule-server.vercel.app/connects', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

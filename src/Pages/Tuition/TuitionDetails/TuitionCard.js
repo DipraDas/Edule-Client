@@ -16,7 +16,7 @@ const TuitionCard = ({ tuition }) => {
     const [applicants, setApplicants] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/allApplications', {
+        fetch('https://edule-server.vercel.app/allApplications', {
             headers: {
                 'content-type': 'application/json',
                 authorization: `bearer ${localStorage.getItem('accessToken')}`
@@ -56,7 +56,7 @@ const TuitionCard = ({ tuition }) => {
             subject: subject,
             salary: salary
         }
-        fetch('http://localhost:5000/applicants', {
+        fetch('https://edule-server.vercel.app/applicants', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -66,14 +66,23 @@ const TuitionCard = ({ tuition }) => {
         })
             .then(res => res.json())
             .then(data => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Applied Successfully',
-                    showConfirmButton: false,
-                    timer: 2000
-                })
-                navigate('/');
+                console.log(data);
+                if (data.acknowledged) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Applied Successfully',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+                else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: data.message
+                    })
+                }
             })
     }
 

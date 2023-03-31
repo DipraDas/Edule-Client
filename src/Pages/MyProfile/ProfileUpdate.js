@@ -4,16 +4,17 @@ import { useNavigate } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/authprovider/authprovider';
+import useTitle from '../../hooks/useTitle';
 
 const ProfileUpdate = () => {
-
+    useTitle("Update Profile");
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
 
-    const { data: profile = [], refetch } = useQuery({
+    const { data: profile = [] } = useQuery({
         queryKey: ['profile'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/myProfile?email=${user?.email}`, {
+            const res = await fetch(`https://edule-server.vercel.app/myProfile?email=${user?.email}`, {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
@@ -36,7 +37,7 @@ const ProfileUpdate = () => {
 
         const profile = { name, location, phone, city, study };
         console.log(profile);
-        fetch(`http://localhost:5000/myProfileUpdate/${user?.email}`, {
+        fetch(`https://edule-server.vercel.app/myProfileUpdate/${user?.email}`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",

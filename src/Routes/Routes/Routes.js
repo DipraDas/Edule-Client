@@ -38,7 +38,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/specificTuition/:id',
-                loader: ({ params }) => fetch(`http://localhost:5000/specificTuition/${params.id}`),
+                loader: ({ params }) => fetch(`https://edule-server.vercel.app/specificTuition/${params.id}`),
                 element: <PrivateRoutes><SpecificTuition></SpecificTuition></PrivateRoutes>
             },
             {

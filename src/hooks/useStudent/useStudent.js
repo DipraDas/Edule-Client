@@ -4,10 +4,10 @@ const useStudent = (email) => {
 
     const [isStudent, setIsStudent] = useState(false);
     const [isStudentLoading, setIsStudentLoading] = useState(true);
-    
+
     useEffect(() => {
         if (email) {
-            fetch(`http://localhost:5000/users/student/${email}`)
+            fetch(`https://edule-server.vercel.app/users/student/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setIsStudent(data.isStudent);
