@@ -1,93 +1,149 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useContext, useEffect, useState } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/authprovider/authprovider';
-import ProfileDetails from './ProfileDetails';
 
 const ProfileUpdate = () => {
-    // const storedReview = useLoaderData();
-    // console.log(storedReview);
-    // const { user } = useContext(AuthContext)
 
-    // const [review, setReview] = useState(storedReview);
-
+    const navigate = useNavigate();
     const { user } = useContext(AuthContext);
 
-    // const { data: profile = [], refetch } = useQuery({
-    //     queryKey: ['profile'],
-    //     queryFn: async () => {
-    //         const res = await fetch(`http://localhost:5000/myProfile?email=${user?.email}`, {
-    //             headers: {
-    //                 authorization: `bearer ${localStorage.getItem('accessToken')}`
-    //             }
-    //         })
-    //         const data = await res.json();
-    //         return data;
-    //     }
-    // })
-    const [profile, setProfile] = useState([]);
-
-    useEffect(() => {
-        fetch(`http://localhost:5000/myProfile?email=${user?.email}`, {
-            headers: {
-                authorization: `bearer ${localStorage.getItem('accessToken')}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => setProfile(data))
-    }, [user?.email])
-
-
-
-    const handleInputChange = event => {
-        const field = event.target.name;
-        const value = event.target.value;
-        const newReview = { ...profile }
-        newReview[field] = value;
-        setProfile(newReview);
-    }
-
-
-    const handleUpdateReview = event => {
-        event.preventDefault();
-        console.log(profile);
-        fetch(`https://localhost:5000/myProfileUpdate/${profile._id}`, {
-            method: 'PATCH',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(profile)
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.modifiedCount > 0) {
-                    console.log(data);
+    const { data: profile = [], refetch } = useQuery({
+        queryKey: ['profile'],
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:5000/myProfile?email=${user?.email}`, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
             })
-    }
+            const data = await res.json();
+            return data;
+        }
+    })
+
+    const myprofile = profile[0];
+
+    const updateprofile = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.name.value;
+        const location = form.location.value;
+        const phone = form.phone.value;
+        const city = form.city.value;
+        const study = form.study.value;
+
+        const profile = { name, location, phone, city, study };
+        console.log(profile);
+        fetch(`http://localhost:5000/myProfileUpdate/${user?.email}`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(profile),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.modifiedCount > 0) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Profile Updated Successfully",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                    console.log(data);
+                }
+                console.log(data);
+            });
+        navigate('/')
+    };
 
     return (
-        <div>
-            {/* {
-            user?.uid &&
-            <>
-                <h2>Please Update: {storedReview.serviceName}</h2>
-                <form onSubmit={handleUpdateReview}>
-                    <input onChange={handleInputChange} defaultValue={storedReview.comment} type="text" name='comment' placeholder='review' required />
-                    <br />
-                    <button type="submit">Update Review</button>
-                </form></>
-        } */}
+        <div className='px-5'>
+            <div className="w-full md:w-5/12 my-20 mx-auto shadow">
+                <form onSubmit={updateprofile} className="py-16 px-5 md:px-20">
+                    <h1 className="text-3xl mb-5 font-semibold">
+                        Update Information
+                    </h1>
 
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Name</span>
+                        </label>
+                        <input
+                            name="name"
+                            type="text"
+                            placeholder={myprofile.name}
+                            className="input input-bordered"
+                            defaultValue={myprofile.name}
+                        />
+                    </div>
 
-                <div className='container mx-auto px-10'>
-                    <h1 className='text-4xl font-semibold my-10 text center'>Edit Your Profile</h1>
-                    <form onSubmit={handleUpdateReview}>
-                        <input onChange={handleInputChange} defaultValue={profile[0]?.email} className='border' type="text" name='name' placeholder={profile[0]?.email} required />
-                        <br />
-                        <button type="submit">Update</button>
-                    </form>
-                </div>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Phone</span>
+                        </label>
+                        <input
+                            name="phone"
+                            type="text"
+                            placeholder={myprofile.phone}
+                            className="input input-bordered"
+                            defaultValue={myprofile.phone}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Study</span>
+                        </label>
+                        <input
+                            name="study"
+                            type="text"
+                            placeholder={myprofile.study}
+                            className="input input-bordered"
+                            defaultValue={myprofile.study}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Location</span>
+                        </label>
+                        <input
+                            name="location"
+                            type="text"
+                            placeholder={myprofile.location}
+                            className="input input-bordered"
+                            defaultValue={myprofile.location}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">City</span>
+                        </label>
+                        <input
+                            name="city"
+                            type="text"
+                            placeholder={myprofile.city}
+                            className="input input-bordered"
+                            defaultValue={myprofile.city}
+                            required
+                        />
+                    </div>
+
+                    <div className="text-start mt-2">
+                        <button className="btn mt-5">
+                            Update Info
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

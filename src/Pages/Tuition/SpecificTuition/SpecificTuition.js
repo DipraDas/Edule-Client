@@ -3,16 +3,22 @@ import { useLoaderData } from 'react-router-dom';
 
 const SpecificTuition = () => {
     const data = useLoaderData();
+    console.log(data);
 
     const [applicants, setApplicants] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/allApplications')
+        fetch('http://localhost:5000/allApplications', {
+            headers: {
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
             .then(res => res.json())
             .then(data => setApplicants(data))
     }, [])
 
-    const specificTuition = applicants.filter(applicant => applicant.subjectId === data[0]._id);
+    const specificTuition = applicants?.filter(applicant => applicant?.subjectId === data[0]._id);
 
     return (
         <div className='container mx-auto px-5 py-20'>

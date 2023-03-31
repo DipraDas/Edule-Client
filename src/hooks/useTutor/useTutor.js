@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const useTutor = email => {
+const useTutor = (email) => {
     const [isTutor, setIsTutor] = useState(false);
     const [isTutorLoading, setIsTutorLoading] = useState(true);
     useEffect(() => {

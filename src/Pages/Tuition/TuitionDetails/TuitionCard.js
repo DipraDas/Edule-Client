@@ -16,14 +16,35 @@ const TuitionCard = ({ tuition }) => {
     const [applicants, setApplicants] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/allApplications')
+        fetch('http://localhost:5000/allApplications', {
+            headers: {
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
             .then(res => res.json())
             .then(data => setApplicants(data))
     }, [])
 
     const { _id, subject, whichClass, weeklydays, salary, location, phone, postedOn, name } = tuition;
 
-    const applicantsNumber = applicants.filter(applicant => applicant.subjectId === _id).length;
+    const applicantsNumber = applicants?.filter(applicant => applicant.subjectId === _id).length;
+
+    const confirmationModal = () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to cancle the application!",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Apply Now'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleApply();
+            }
+        })
+    }
 
     const handleApply = () => {
         const email = user?.email;
@@ -68,13 +89,13 @@ const TuitionCard = ({ tuition }) => {
                     <div className='hidden md:block'>
                         {
                             isTutor &&
-                            <div onClick={handleApply} className="btn mt-3 tracking-wider">Apply Now</div>
+                            <div onClick={confirmationModal} className="btn mt-3 tracking-wider">Apply Now</div>
                         }
                     </div>
                     <div className='hidden md:block'>
                         {
                             isStudent && applicantsNumber > 0 &&
-                            <Link to={`/specificTuition/${_id}`} className="btn mt-3 tracking-wider">{applicantsNumber} Applicants</Link>
+                            <Link to={`/specificTuition/${_id}`} className="btn  bg-blue-600 border-blue-900 mt-3 tracking-wider hover:text-blue-400 ">View {applicantsNumber} Applicants</Link>
                         }
                     </div>
                     <div className='hidden md:block'>
@@ -92,7 +113,7 @@ const TuitionCard = ({ tuition }) => {
                 <div className='sm:hidden'>
                     {
                         isTutor &&
-                        <div onClick={handleApply} className="btn mt-3 tracking-wider">Apply Now</div>
+                        <div onClick={confirmationModal} className="btn mt-3 tracking-wider">Apply Now</div>
                     }
                 </div>
                 <div className='sm:hidden'>

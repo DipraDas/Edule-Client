@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 
-const useStudent = email => {
+const useStudent = (email) => {
+
     const [isStudent, setIsStudent] = useState(false);
     const [isStudentLoading, setIsStudentLoading] = useState(true);
+    
     useEffect(() => {
         if (email) {
             fetch(`http://localhost:5000/users/student/${email}`)

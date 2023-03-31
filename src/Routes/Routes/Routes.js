@@ -41,14 +41,8 @@ const router = createBrowserRouter([
                 loader: ({ params }) => fetch(`http://localhost:5000/specificTuition/${params.id}`),
                 element: <PrivateRoutes><SpecificTuition></SpecificTuition></PrivateRoutes>
             },
-            // {
-            //     path: '/profileUpdate/:id',
-            //     element: <ProfileUpdate></ProfileUpdate>,
-            //     loader: ({ params }) => fetch(`https://localhost:5000/profileUpdate/${params.id}`)
-            // },
             {
                 path: '/profileUpdate',
-                // loader: ({ params }) => fetch(`https://localhost:5000/profileUpdate/${params.id}`),
                 element: <ProfileUpdate></ProfileUpdate>
             },
             {

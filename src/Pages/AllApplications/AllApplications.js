@@ -5,7 +5,12 @@ const AllApplications = () => {
 
     const [applicants, setApplicants] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/allApplications')
+        fetch('http://localhost:5000/allApplications', {
+            headers: {
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
             .then(res => res.json())
             .then(data => setApplicants(data))
     }, [])

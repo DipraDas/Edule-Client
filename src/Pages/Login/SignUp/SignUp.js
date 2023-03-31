@@ -35,6 +35,7 @@ const SignUp = () => {
 
     if (token) {
         navigate('/');
+        window.location.reload(true);
     }
 
     const handleSignUp = data => {
@@ -60,8 +61,16 @@ const SignUp = () => {
 
 
     const saveUser = (name, email, role) => {
-        const user = { name, email, role };
-        console.log(user);
+        const user = {
+            name,
+            email,
+            role,
+            location: '',
+            phone: '',
+            city: '',
+            study: ''
+        };
+
         fetch('http://localhost:5000/users', {
             method: 'POST',
             headers: {
@@ -133,8 +142,9 @@ const SignUp = () => {
                                         <input
                                             type='password'
                                             className="input input-bordered w-full" placeholder='ReType Your password'
-                                            // id='confirm-password'
-                                            {...register("confirmPassword")}
+                                            {...register("confirmPassword", {
+                                                required: true
+                                            })}
                                         />
                                     </div>
 
@@ -154,8 +164,8 @@ const SignUp = () => {
                                     </div>
                                     <input className='btn bg-green-600 text-white border-0 mt-5 mb-2 w-full duration-500' value="Sign Up" type="submit" disabled={disabled} />
                                     <p className='text-xs text-red-600'>Sign Up button will active after matching Password and Confirm Password</p>
-                                    {/* {errors.password && <p className='text-red-600'>{errors.password.message}</p>}
-                    {signupError && <p className='text-red-600'>{signupError}</p>} */}
+                                    {errors.password && <p className='text-red-600'>{errors.password.message}</p>}
+                                    {signupError && <p className='text-red-600'>{signupError}</p>}
                                 </form>
                             </div>
                         </div>

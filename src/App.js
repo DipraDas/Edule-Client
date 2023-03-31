@@ -1,7 +1,7 @@
 import './App.css';
 import { RouterProvider } from 'react-router-dom';
 import router from './Routes/Routes/Routes';
-import app from './firebase/firebase.config';
+import 'animate.css';
 
 function App() {
   return (
